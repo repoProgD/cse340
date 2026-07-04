@@ -1,31 +1,110 @@
-html,
-body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
+:root {
+    --primary: #1e3a8a;
+    --secondary: #172554;
+    --background: #f4f7fb;
+    --light: #ffffff;
+    --text: #334155;
+    --border: #dbe3ec;
+    --accent:#d7f10e;
+}
+
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+}
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+/* ---------- Navigation ---------- */
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+nav {
+    background: var(--secondary);
+    padding: 18px 0;
+}
 
-            &:hover {
-                color: #0066cc;
-            }
-        }
-    }
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color .2s ease;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* ---------- Main ---------- */
+
+main {
+    max-width: 950px;
+    margin: 40px auto;
+    background: var(--light);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+}
+
+h1 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin: 25px 0 15px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+/* ---------- Images ---------- */
+
+.main-logo {
+    display: block;
+    max-width: 450px;
+    width: 100%;
+    margin: 35px auto;
+}
+
+/* ---------- Lists ---------- */
+
+ul {
+    margin-left: 25px;
+}
+
+li {
+    margin-bottom: 18px;
+}
+
+/* ---------- Organization logos ---------- */
+
+li img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    background: var(--secondary);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
 }
