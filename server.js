@@ -49,9 +49,14 @@ app.get('/organizations', async (req, res) => {
     res.render('organizations', { title });    // use the ejs engine to render the page
 });
 
-app.get('/projects', (req, res) => {
+app.get('/projects', async (req, res) => {
     const title = 'Services projects'
     res.render('projects', { title });      // use the ejs engine to render the page
+});
+
+app.get('/categories', async (req, res) => {
+    const title = 'Categories'
+    res.render('categories', { title });      // use the ejs engine to render the page
 });
 
 app.listen(PORT, () => {
