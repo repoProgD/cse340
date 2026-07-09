@@ -1,6 +1,11 @@
+import 'dotenv/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
+
+import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
 
 const NODE_ENV = 'production';
 const PORT = 3000;
@@ -45,13 +50,22 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/organizations', async (req, res) => {
-    const title = 'Our Partner Organizations'
-    res.render('organizations', { title });    // use the ejs engine to render the page
+    const organizations = await getAllOrganizations();
+    const title = 'Our Partner Organizations';
+
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', async (req, res) => {
+    console.log("Entré a /projects");    // TODO: Remove this line after testing
+
+    const projects = await getAllProjects();
+
+    console.log('Projects:', projects);    // TODO: Remove this line after testing
+
     const title = 'Services projects'
-    res.render('projects', { title });      // use the ejs engine to render the page
+
+    res.render('projects', { title, projects });
 });
 
 app.get('/categories', async (req, res) => {
@@ -59,8 +73,13 @@ app.get('/categories', async (req, res) => {
     res.render('categories', { title });      // use the ejs engine to render the page
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://127.0.0.1:${PORT}`);
-    console.log(`Environment: ${NODE_ENV}`);
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });
 
