@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS public.service_project; /* first drop the child table */
+DROP TABLE IF EXISTS service_project_category;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS public.service_project; /* First, drop the child table */
 DROP TABLE IF EXISTS public.organization;
 
 CREATE TABLE organization (
@@ -22,6 +24,29 @@ CREATE TABLE service_project (
         REFERENCES public.organization(organization_id)
         ON DELETE CASCADE
 );
+
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE service_project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+
+    PRIMARY KEY (project_id, category_id),
+
+    FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE CASCADE
+);
+
+
+-- Insert sample data
 
 
 INSERT INTO organization (
@@ -200,6 +225,79 @@ VALUES
     'Unity Community Hall',
     '2026-12-18'
 );
+
+
+-- ============================================================
+-- Sample data: category
+-- ============================================================
+
+INSERT INTO category (name)
+VALUES
+    ('Community Development'),
+    ('Education'),
+    ('Environmental Sustainability'),
+    ('Food Security'),
+    ('Social Support');
+
+-- ============================================================
+-- Sample data: service_project_category (intermediate table for many-to-many relationship)
+-- ============================================================
+
+INSERT INTO service_project_category (project_id, category_id)
+VALUES
+    -- Community Center Renovation
+    (1, 1),
+
+    -- Neighborhood Playground Repair
+    (2, 1),
+
+    -- Affordable Housing Construction
+    (3, 1),
+    (3, 5),
+
+    -- School Building Improvements
+    (4, 1),
+    (4, 2),
+
+    -- Green Infrastructure Project
+    (5, 3),
+
+    -- Urban Garden Workshop
+    (6, 2),
+    (6, 3),
+
+    -- Community Vegetable Harvest
+    (7, 3),
+    (7, 4),
+
+    -- School Garden Installation
+    (8, 2),
+    (8, 3),
+
+    -- Composting Education Program
+    (9, 2),
+    (9, 3),
+
+    -- Local Food Sustainability Fair
+    (10, 3),
+    (10, 4),
+
+    -- Food Donation Drive
+    (11, 4),
+    (11, 5),
+
+    -- Senior Support Program
+    (12, 5),
+
+    -- Community Cleanup Day
+    (13, 1),
+    (13, 3),
+
+    -- Educational Tutoring Program
+    (14, 2),
+
+    -- Holiday Charity Event
+    (15, 5);
 
 
 

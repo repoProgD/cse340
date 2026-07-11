@@ -6,6 +6,7 @@ import express from 'express';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
 import { getAllProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 
 const NODE_ENV = 'production';
 const PORT = 3000;
@@ -57,20 +58,17 @@ app.get('/organizations', async (req, res) => {
 });
 
 app.get('/projects', async (req, res) => {
-    console.log("Entré a /projects");    // TODO: Remove this line after testing
-
     const projects = await getAllProjects();
-
-    console.log('Projects:', projects);    // TODO: Remove this line after testing
-
     const title = 'Services projects'
 
     res.render('projects', { title, projects });
 });
 
 app.get('/categories', async (req, res) => {
+    const categories = await getAllCategories();
     const title = 'Categories'
-    res.render('categories', { title });      // use the ejs engine to render the page
+
+    res.render('categories', { title, categories });
 });
 
 app.listen(PORT, async () => {
