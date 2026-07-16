@@ -7,7 +7,7 @@ import { testConnection } from './src/models/db.js';
 
 import router from './src/routes.js';
 
-const NODE_ENV = 'development'; // Change this to 'production' in production environment
+const NODE_ENV = 'production'; // Change this to 'production' in production environment
 const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
