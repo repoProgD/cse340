@@ -40,8 +40,57 @@ const getProjectsByOrganizationId = async (organizationId) => {
     return result.rows;
 };
 
+/* Create a new function getUpcomingProjects(number_of_projects) 
+that will retrieve the next number_of_projects upcoming service projects from the database. */
+
+const getUpcomingProjects = async (numberOfProjects) => {
+    const query = `
+        SELECT
+            sp.project_id,
+            sp.title,
+            sp.description,
+            sp.date,
+            sp.location,
+            sp.organization_id,
+            o.name AS organization_name
+        FROM service_project AS sp
+        INNER JOIN organization AS o
+            ON sp.organization_id = o.organization_id
+        WHERE sp.date > CURRENT_DATE
+        ORDER BY sp.date ASC
+        LIMIT $1;
+    `;
+
+    const result = await db.query(query, [numberOfProjects]);
+
+    return result.rows;
+};
+
+
+/* Create a new function getProjectDetails(id) that will retrieve a single service project by its ID. */
+
+const getProjectDetails = async (id) => {
+    const query = `
+        SELECT
+            sp.project_id,
+            sp.title,
+            sp.description,
+            sp.location,
+            sp.organization_id,
+            o.name AS organization_name
+        FROM service_project AS sp
+        INNER JOIN organization AS o
+            ON sp.organization_id = o.organization_id
+        WHERE sp.project_id = $1;
+    `;
+
+    const result = await db.query(query, [id]);
+
+    return result.rows[0];
+};
+
 // Export the model functions
-export { getAllProjects, getProjectsByOrganizationId };
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails };
 
 
  /* project_id SERIAL PRIMARY KEY,
