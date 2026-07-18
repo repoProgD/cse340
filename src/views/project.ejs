@@ -23,6 +23,17 @@
                 <%= project.organization_name %>
             </a>
         </p>
+
+        <h3>Categories</h3>
+
+        <div>
+            <% categories.forEach(category=> { %>
+                <a href="/category/<%= category.category_id %>">
+                    <%= category.name %>
+                </a>
+                <% }) %>
+        </div>
+
     </main>
 
     <%- include('partials/footer') %>
