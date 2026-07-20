@@ -75,6 +75,7 @@ const getProjectDetails = async (id) => {
             sp.project_id,
             sp.title,
             sp.description,
+            sp.date,
             sp.location,
             sp.organization_id,
             o.name AS organization_name

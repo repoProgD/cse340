@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 
 app.get('/', async (req, res) => {
     const title = 'Home'
-    res.render('home', {title});    // use the ejs engine to render the page
+    res.render('home', { title });    // use the ejs engine to render the page
 });
 
 
