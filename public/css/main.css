@@ -6,6 +6,8 @@
     --text: #334155;
     --border: #dbe3ec;
     --accent:#d7f10e;
+    --success: #155724;
+    --error: #721c24;
 }
 
 * {
@@ -97,6 +99,38 @@ li img {
     object-fit: contain;
     vertical-align: middle;
     margin-right: 15px;
+}
+
+/* ---------- Flash Messages ---------- */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert.success {
+    color: var(--success);
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert.error {
+    color: var(--error);
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert.info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
 }
 
 /* ---------- Footer ---------- */
