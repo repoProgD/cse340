@@ -9,7 +9,7 @@ import { testConnection } from './src/models/db.js';
 
 import router from './src/routes.js';
 
-const NODE_ENV = 'production'; // Change this to 'production' in production environment
+const NODE_ENV = 'development'; // Change this to 'production' in production environment
 const PORT = 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
@@ -59,17 +59,19 @@ app.use((req, res, next) => {
 });
 
 // Middleware to make NODE_ENV available to all templates
-/*app.use((req, res, next) => {
+app.use((req, res, next) => {
     res.locals.isLoggedIn = false;
     if (req.session && req.session.user) {
         res.locals.isLoggedIn = true;
     }
 
+    res.locals.user = req.session.user || null;
+
     res.locals.NODE_ENV = NODE_ENV;
     next();
-});*/
+});
 
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     res.locals.isLoggedIn = false;
 
     if (req.session && req.session.user) {
@@ -84,7 +86,7 @@ app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
 
     next();
-});
+});*/
 
 /**
   * Routes
