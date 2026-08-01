@@ -27,7 +27,8 @@ import {
 import { testErrorPage } from './controllers/errors.js';
 import {
     showUserRegistrationForm, processUserRegistrationForm, showLoginForm,
-    processLoginForm, processLogout, requireLogin, showDashboard, requireRole
+    processLoginForm, processLogout, requireLogin, showDashboard, requireRole,
+    showUsers
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -43,10 +44,10 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 router.get('/project/:id', showProjectDetailsPage);
 router.get('/category/:id', showCategoryDetailsPage);
 
-// Route for new organization page
+// Route for new organization page (protected route, admin only)
 router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
 
-// Route to handle new organization form submission
+// Route to handle new organization form submission (protected route, admin only)
 router.post(
     '/new-organization',
     requireRole('admin'),
@@ -54,10 +55,10 @@ router.post(
     processNewOrganizationForm
 );
 
-// Route to display the edit organization form
+// Route to display the edit organization form (protected route, admin only)
 router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
 
-// Route to handle the edit organization form submission
+// Route to handle the edit organization form submission (protected route, admin only)
 router.post(
     '/edit-organization/:id',
     requireRole('admin'),
@@ -65,10 +66,10 @@ router.post(
     processEditOrganizationForm
 );
 
-// Route for new project page
+// Route for new project page (protected route, admin only)
 router.get('/new-project', requireRole('admin'), showNewProjectForm);
 
-// Route to handle new project form submission
+// Route to handle new project form submission (protected route, admin only)
 router.post(
     '/new-project',
     requireRole('admin'),
@@ -76,14 +77,14 @@ router.post(
     processNewProjectForm
 );
 
-// Routes to handle the assign categories to project form
+// Routes to handle the assign categories to project form (protected routes, admin only)
 router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
 
-// Route to display the edit project form
+// Route to display the edit project form (protected route, admin only)
 router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
 
-// Route to handle the edit project form submission
+// Route to handle the edit project form submission (protected route, admin only)
 router.post(
     '/edit-project/:id',
     requireRole('admin'),
@@ -91,10 +92,10 @@ router.post(
     processEditProjectForm
 );
 
-// Route for new category page
+// Route for new category page (protected route, admin only)
 router.get('/new-category', requireRole('admin'), showNewCategoryForm);
 
-// Route to handle new category form submission
+// Route to handle new category form submission (protected route, admin only)
 router.post(
     '/new-category',
     requireRole('admin'),
@@ -102,10 +103,10 @@ router.post(
     processNewCategoryForm
 );
 
-// Route to display the edit category form
+// Route to display the edit category form (protected route, admin only)
 router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
 
-// Route to handle the edit category form submission
+// Route to handle the edit category form submission (protected route, admin only)
 router.post(
     '/edit-category/:id',
     requireRole('admin'),
@@ -124,6 +125,9 @@ router.get('/logout', processLogout);
 
 // Route to display the dashboard page (protected route)
 router.get('/dashboard', requireLogin, showDashboard);
+
+// Route to display the users page (protected route, admin only)
+router.get('/users', requireRole('admin'), showUsers);
 
 // error-handling routes
 router.get('/test-error', testErrorPage, processNewOrganizationForm);
