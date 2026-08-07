@@ -15,7 +15,7 @@ import {
 import {
     showProjectsPage, showProjectDetailsPage, showNewProjectForm,
     processNewProjectForm, projectValidation, showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm, addVolunteer, removeVolunteer
 } from './controllers/projects.js';
 
 import {
@@ -128,6 +128,12 @@ router.get('/dashboard', requireLogin, showDashboard);
 
 // Route to display the users page (protected route, admin only)
 router.get('/users', requireRole('admin'), showUsers);
+
+// Routes to handle adding and removing volunteers from a project (Requires Login)
+router.get('/project/:id/add-volunteer', requireLogin, addVolunteer);
+router.post('/project/:id/add-volunteer', requireLogin, addVolunteer);
+router.get('/project/:id/remove-volunteer', requireLogin, removeVolunteer);
+router.post('/project/:id/remove-volunteer', requireLogin, removeVolunteer);
 
 // error-handling routes
 router.get('/test-error', testErrorPage, processNewOrganizationForm);

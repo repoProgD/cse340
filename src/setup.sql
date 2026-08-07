@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS public.service_project; /* First, drop the child table */
 DROP TABLE IF EXISTS public.organization;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS service_project_volunteer;
+DROP TABLE IF EXISTS volunteer;
 
 -- Create tables
 
@@ -62,6 +64,31 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE volunteer (
+    volunteer_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL UNIQUE,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE service_project_volunteer (
+    project_id INTEGER NOT NULL,
+    volunteer_id INTEGER NOT NULL,
+
+    PRIMARY KEY (project_id, volunteer_id),
+
+    FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (volunteer_id)
+        REFERENCES volunteer(volunteer_id)
+        ON DELETE CASCADE
 );
 
 

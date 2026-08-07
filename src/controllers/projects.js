@@ -6,7 +6,12 @@ import {
     getProjectsByOrganizationId,
     getUpcomingProjects,
     getProjectDetails,
-    createProject
+    createProject,
+    addVolunteerToProject,
+    removeVolunteerFromProject,
+    isUserVolunteer,
+    getVolunteerByUserId,
+    createVolunteer
 } from '../models/projects.js';
 
 import { getCategoriesByProjectId } from '../models/categories.js';
@@ -43,7 +48,7 @@ const showProjectsPage = async (req, res) => {
     res.render('projects', { title, projects });
 };
 
-const showProjectDetailsPage = async (req, res) => {
+/*const showProjectDetailsPage = async (req, res) => {
     const id = req.params.id;
 
     const project = await getProjectDetails(id);
@@ -52,6 +57,32 @@ const showProjectDetailsPage = async (req, res) => {
     const title = project.title;
 
     res.render("project", { title, project, categories });
+};*/
+
+
+const showProjectDetailsPage = async (req, res) => {
+    const id = req.params.id;
+
+    const project = await getProjectDetails(id);
+    const categories = await getCategoriesByProjectId(id);
+
+    let isVolunteer = false;
+
+    if (req.session.user) {
+        isVolunteer = await isUserVolunteer(
+            id,
+            req.session.user.user_id
+        );
+    }
+
+    const title = project.title;
+
+    res.render("project", {
+        title,
+        project,
+        categories,
+        isVolunteer
+    });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -140,5 +171,44 @@ const processEditProjectForm = async (req, res) => {
     res.redirect(`/project/${projectId}`);
 };
 
+
+const addVolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    let volunteer = await getVolunteerByUserId(userId);
+
+    if (!volunteer) {
+        volunteer = await createVolunteer(userId);
+    }
+
+    await addVolunteerToProject(
+        projectId,
+        volunteer.volunteer_id
+    );
+
+    res.redirect(`/project/${projectId}`);
+};
+
+
+const removeVolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    const volunteer = await getVolunteerByUserId(userId);
+
+    await removeVolunteerFromProject(
+        projectId,
+        volunteer.volunteer_id
+    );
+
+    res.redirect(`/project/${projectId}`);
+};
+
+
+
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm };
+export {
+    showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm,
+    projectValidation, showEditProjectForm, processEditProjectForm, addVolunteer, removeVolunteer
+};
